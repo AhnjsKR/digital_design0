@@ -1,0 +1,26 @@
+module ParityGenerator_TB;
+
+reg [7:0] data_in;
+wire parity_out;
+
+
+ParityGenerator dut (
+    .data_in(data_in),
+    .parity_out(parity_out)
+);
+
+initial begin
+    
+    data_in = 8'b10101010;
+    #10; 
+    $disp.lay("Input: %b, Parity: %b", data_in, parity_out);
+
+  
+    data_in = 8'b11001101;
+    #10; 
+    $display("Input: %b, Parity: %b", data_in, parity_out);
+
+   
+end
+
+endmodule
