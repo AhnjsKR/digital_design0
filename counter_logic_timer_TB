@@ -1,0 +1,37 @@
+
+`timescale 1us / 1ns // 클럭 주파수에 따라 조정
+
+module simple_timer_tb;
+
+reg clk = 0;
+reg reset = 0;
+wire timeout;
+
+simple_timer uut (
+    .clk(clk),
+    .reset(reset),
+    .timeout(timeout)
+);
+
+// 클럭 생성
+initial begin
+    forever #0.5 clk = ~clk; // 1MHz 클럭
+end
+
+// 리셋 및 타임아웃 확인
+initial begin
+    reset = 1;
+    #10 reset = 0; // 리셋 활성화 후 비활성화
+    #10 reset = 1;
+
+    // 매 초마다 시간 표시
+    repeat (10) begin
+        #1000000; // 1초 대기
+        $display("%d second(s) passed.", $time / 1000000);
+    end
+
+    // 시뮬레이션 종료
+    $finish;
+end
+
+endmodule
