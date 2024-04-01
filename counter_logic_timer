@@ -1,0 +1,23 @@
+module timer_10s(
+    input wire clk,    // 클럭 신호
+    input wire reset,  // 리셋
+    output reg timeout // 타임아웃 output
+);
+
+reg [23:0] count = 0; // 충분히 큰 비트 수를 가진 카운터
+localparam MAX_COUNT = 10_000_000; // 1MHz 클럭에서 10초
+
+always @(posedge clk or negedge reset) begin
+    if (!reset) begin
+        count <= 0;
+        timeout <= 0;
+    end else if (count >= MAX_COUNT-1) begin
+        count <= 0;
+        timeout <= 1;
+    end else begin
+        count <= count + 1;
+        timeout <= 0;
+    end
+end
+
+endmodule
